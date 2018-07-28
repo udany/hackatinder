@@ -13,12 +13,17 @@
                         {{user.name}}
                     </li>
                 </ul>
+
+                <div>
+                    <b>CONFIG:</b> {{JSON.stringify(config)}}
+                </div>
             </b-col>
         </b-row>
     </div>
 </template>
 
 <script>
+    import config from '../config';
     import User from 'shared/entities/User';
 
     export default {
@@ -27,6 +32,7 @@
         }),
         data: () => ({
             users: [],
+            config
         }),
         async asyncData ({ app }) {
             let { data: users } = await app.$api.get(`/user/`);
