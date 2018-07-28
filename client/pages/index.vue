@@ -3,7 +3,7 @@
         <b-row>
             <b-col>
                 <h1 class="my-4">
-                    Welcome to Sample!
+                    Welcome to Sample App!
                 </h1>
 
                 <h3>These are the registered users</h3>
