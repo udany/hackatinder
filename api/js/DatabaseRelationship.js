@@ -1,5 +1,5 @@
 import {setOrReturnKey} from '../../shared/base/General';
-import {DatabaseQueryCondition} from "./DatabaseQueryComponent";
+import {DatabaseQueryCondition} from './DatabaseQueryComponent';
 
 /**
  * @name DatabaseRelationship
@@ -22,95 +22,125 @@ import {DatabaseQueryCondition} from "./DatabaseQueryComponent";
  * @property {string} order Order clause to be used when querying the relationship
  */
 export class DatabaseRelationship {
-    constructor({
-        model,
-        externalModel,
+	constructor({
+		            model,
+		            externalModel,
 
-        property,
+		            property,
 
-        localKey = '',
-        localForeignKey = '',
+		            localKey = '',
+		            localForeignKey = '',
 
-        externalKey = '',
-        externalForeignKey = '',
+		            externalKey = '',
+		            externalForeignKey = '',
 
-        readOnly = true,
-        autoload = false,
+		            readOnly = true,
+		            autoload = false,
 
-        filters = [],
-        order = ''
-    }) {
-        this.model = model;
-        this.externalModel = externalModel;
+		            filters = [],
+		            order = ''
+	            }) {
+		this.model = model;
+		this.externalModel = externalModel;
 
-        this.property = property;
+		this.property = property;
 
-        this.localKey = localKey;
-        this.localForeignKey = localForeignKey;
+		this.localKey = localKey;
+		this.localForeignKey = localForeignKey;
 
-        this.externalKey = externalKey;
-        this.externalForeignKey = externalForeignKey;
+		this.externalKey = externalKey;
+		this.externalForeignKey = externalForeignKey;
 
-        this._readOnly = readOnly;
-        this._autoload = autoload;
+		this._readOnly = readOnly;
+		this._autoload = autoload;
 
-        this.filters = filters;
-        this.order = order;
-    }
+		this.filters = filters;
+		this.order = order;
+	}
 
-    async select(db, obj) {}
+	async query(db, obj) {
+	}
 
-    async selectMany(db, objs) {}
+	async select(db, obj) {
+	}
 
-    async save(db, obj) {}
+	async selectMany(db, objs) {
+	}
 
-    readonly(v) { return this._setOrReturnKey('_readOnly', v) }
-    autoload(v) { return this._setOrReturnKey('_autoload', v) }
+	async save(db, obj) {
+	}
 
-    setFilters(f) { this.filters = f; return this; }
-    setOrder(o) { this.order = o; return this; }
+	readonly(v) {
+		return this._setOrReturnKey('_readOnly', v)
+	}
+
+	autoload(v) {
+		return this._setOrReturnKey('_autoload', v)
+	}
+
+	setFilters(f) {
+		this.filters = f;
+		return this;
+	}
+
+	setOrder(o) {
+		this.order = o;
+		return this;
+	}
 }
+
 DatabaseRelationship.prototype._setOrReturnKey = setOrReturnKey;
 
 
-export class DatabaseRelationshipOneToMany extends DatabaseRelationship{
-    constructor({
-        model,
-        externalModel,
-        property,
-        localKey = 'id',
-        localForeignKey
-    }) {
-        super({model, externalModel, property, localKey, localForeignKey})
-    }
+export class DatabaseRelationshipOneToMany extends DatabaseRelationship {
+	constructor({
+		            model,
+		            externalModel,
+		            property,
+		            localKey = 'id',
+		            localForeignKey
+	            }) {
+		super({model, externalModel, property, localKey, localForeignKey})
+	}
 
-    async select(db, obj) {
-        const id = obj[this.localKey];
+	async query(db, obj) {
+		const id = obj[this.localKey];
 
-        const filters = this.filters.concat([
-            new DatabaseQueryCondition({
-                column: this.localForeignKey,
-                values: id
-            })
-        ]);
+		const filters = this.filters.concat([
+			new DatabaseQueryCondition({
+				column: this.localForeignKey,
+				values: id
+			})
+		]);
 
-        const result = await this.externalModel.select(db, filters, this.order);
+		return this.externalModel.select(db, filters, this.order);
+	}
 
-        obj[this.property] = result;
+	async select(db, obj) {
+		const result = await this.query(db, obj);
 
-        return result;
-    }
+		obj[this.property] = result;
 
-    async save(db, obj) {
-        const id = obj[this.localKey];
-        const data = obj[this.property];
+		return result;
+	}
 
-        for (const item of data) {
-            item[this.localForeignKey] = id;
+	async save(db, obj) {
+		let id = obj[this.localKey];
+		let data = obj[this.property];
 
-            await this.externalModel.save(db, item);
-        }
-    }
+		for (const item of data) {
+			item[this.localForeignKey] = id;
+
+			await this.externalModel.save(db, item);
+		}
+
+		let list = await this.query(db, obj);
+		let deleted = list.filter(element => !data.find(x => this.externalModel.comparePrimaryKeys(x, element)));
+
+		for (const item of deleted) {
+			await this.externalModel.deleteByModel(db, item);
+		}
+	}
 }
 
 
@@ -126,90 +156,90 @@ export class DatabaseRelationshipOneToMany extends DatabaseRelationship{
  * @property {string} externalKey A field that identifies the external model within itself
  * @property {string} externalForeignKey A field that identifies the external model within the intermediary model
  */
-export class DatabaseRelationshipManyToMany extends DatabaseRelationship{
-    constructor({
-        model,
-        intermediaryModel,
-        externalModel,
-        property,
-        localKey = 'id',
-        localForeignKey,
-        externalKey = 'id',
-        externalForeignKey
-    }) {
-        super({
-            model,
-            externalModel,
-            property,
+export class DatabaseRelationshipManyToMany extends DatabaseRelationship {
+	constructor({
+		            model,
+		            intermediaryModel,
+		            externalModel,
+		            property,
+		            localKey = 'id',
+		            localForeignKey,
+		            externalKey = 'id',
+		            externalForeignKey
+	            }) {
+		super({
+			model,
+			externalModel,
+			property,
 
-            localKey,
-            localForeignKey,
+			localKey,
+			localForeignKey,
 
-            externalKey,
-            externalForeignKey
-        });
+			externalKey,
+			externalForeignKey
+		});
 
-        this.intermediaryModel = intermediaryModel;
-    }
+		this.intermediaryModel = intermediaryModel;
+	}
 
-    async select(db, obj) {
-        const id = obj[this.localKey];
+	async select(db, obj) {
+		const id = obj[this.localKey];
 
-        let filters = [
-            new DatabaseQueryCondition({
-                column: this.localForeignKey,
-                values: id
-            })
-        ];
+		let filters = [
+			new DatabaseQueryCondition({
+				column: this.localForeignKey,
+				values: id
+			})
+		];
 
-        const intermediaryResult = await this.intermediaryModel.select(db, filters);
+		const intermediaryResult = await this.intermediaryModel.select(db, filters);
 
-        if (!intermediaryResult.length) return [];
+		if (!intermediaryResult.length) return [];
 
-        const externalIds = intermediaryResult.map(r => r[this.externalForeignKey]);
+		const externalIds = intermediaryResult.map(r => r[this.externalForeignKey]);
 
-        filters = this.filters.concat([
-            new DatabaseQueryCondition({
-                column: this.externalKey,
-                operator: "IN",
-                values: `(${externalIds.join(', ')})`,
-                bound: false
-            })
-        ]);
+		filters = this.filters.concat([
+			new DatabaseQueryCondition({
+				column: this.externalKey,
+				operator: 'IN',
+				values: `(${externalIds.join(', ')})`,
+				bound: false
+			})
+		]);
 
-        const result = await this.externalModel.select(db, filters, this.order);
+		const result = await this.externalModel.select(db, filters, this.order);
 
-        obj[this.property] = result;
+		obj[this.property] = result;
 
-        return result;
-    }
+		return result;
+	}
 
-    async save(db, obj) {
-        const id = obj[this.localKey];
-        const data = obj[this.property];
+	async save(db, obj) {
+		const id = obj[this.localKey];
+		const data = obj[this.property];
 
-        let intermediaryData = data.map(d => {
-            let obj = {};
+		let intermediaryData = data.map(d => {
+			let obj = {};
 
-            obj[this.localForeignKey] = id;
-            obj[this.externalForeignKey] = d[this.externalKey];
+			obj[this.localForeignKey] = id;
+			obj[this.externalForeignKey] = d[this.externalKey];
 
-            return obj;
-        });
+			return obj;
+		});
 
-        if (this.intermediaryModel.entity) intermediaryData = intermediaryData.map(d => new this.intermediaryModel.entity(d));
+		if (this.intermediaryModel.entity) intermediaryData = intermediaryData.map(d => new this.intermediaryModel.entity(d));
 
-        let filters = [
-            new DatabaseQueryCondition({
-                column: this.localForeignKey,
-                values: id
-            })
-        ];
+		let filters = [
+			new DatabaseQueryCondition({
+				column: this.localForeignKey,
+				values: id
+			})
+		];
 
-        await this.intermediaryModel.delete(db, filters);
+		await this.intermediaryModel.delete(db, filters);
 
-        for (const item of intermediaryData) {
-            await this.intermediaryModel.save(db, item, [], true);
-        }
-    }
+		for (const item of intermediaryData) {
+			await this.intermediaryModel.save(db, item, [], true);
+		}
+	}
 }

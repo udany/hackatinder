@@ -7,6 +7,7 @@ UserTagModel.config({
 	table: 'user_tag',
 	entity: UserTag,
 	insertWithId: true,
+	updateOnDuplicate: true,
 
 	fields: [
 		new DatabaseField({name: 'userId', type: 'int', length: 11})
