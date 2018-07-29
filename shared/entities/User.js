@@ -45,7 +45,7 @@ User.Attributes = [
 	new Entity.Attributes.String('semester'),
 
 	new Entity.Attributes.Enum('gender', Gender),
-	new Entity.Attributes.Enum('enrolmentStatus', EnrollmentStatus),
+	new Entity.Attributes.Enum('enrollmentStatus', EnrollmentStatus),
 	new Entity.Attributes.Enum('educationLevel', EducationLevel),
 	new Entity.Attributes.Enum('sexualOrientation', SexualOrientation),
 	new Entity.Attributes.Flags('genderPreference', Gender),

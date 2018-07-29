@@ -9,7 +9,6 @@ const _e = dbBacktick;
 
 
 export class DatabaseModel {
-
     static config({
         table,
         entity = null,

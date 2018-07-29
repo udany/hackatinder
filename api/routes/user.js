@@ -20,18 +20,27 @@ router.get('/:id', async function (req, res, next) {
 });
 
 // Save
-router.post('/:id', async function (req, res, next) {
+router.post('/', async function (req, res, next) {
     const obj = new User(req.body);
-    await UserModel.save(db, obj, ['name', 'email', 'password']);
+    await UserModel.save(db, obj, ['name','email','password','major',
+                                  'semester','gender','enrollmentStatus',
+                                  'educationLevel','sexualOrientation',
+                                  'genderPreference','neighborhood','phone',
+                                  'birthday', 'description', 'matchMessage',
+                                  'tags']);
 
     res.send(obj);
 });
 
-router.delete('/:id', async function (req, res, next) {
+router.put('/:id/inactivate', async function (req, res, next) {
+    // deactivate user
+});
+
+/*router.delete('/:id', async function (req, res, next) {
     let data = await UserModel.deleteById(db, req.params.id);
 
     res.send(new Reply(data));
-});
+});*/
 
 module.exports.path = '/user';
 module.exports.router = router;
