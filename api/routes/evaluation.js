@@ -14,9 +14,11 @@ router.get('/', async function (req, res, next) {
 });
 
 // Save
-
 router.post('/', async function (req, res, next) {
     const obj = new Evaluation(req.body);
     await EvaluationModel.save(db, obj, ['evaluatingUser', 'evaluatedUser', 'evaluation', 'datetime']);
     res.send(obj);
 });
+
+module.exports.path = '/evaluation';
+module.exports.router = router;
