@@ -17,7 +17,7 @@ module.exports = {
 
     modules: [
         '@nuxtjs/font-awesome',
-        'bootstrap-vue/nuxt',
+        ['bootstrap-vue/nuxt', { css: false }],
         [
             '@nuxtjs/toast',
             {

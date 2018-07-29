@@ -1,0 +1,12 @@
+// Your variable overrides
+
+$theme-colors: (
+    "primary": #0C7BB2,
+    "love": #FF534D,
+    "highlight": #2AB8FF,
+    "success": #05E8D5,
+    "error": #FF7536,
+);
+
+// Bootstrap and its default variables
+@import "~bootstrap/scss/bootstrap";
