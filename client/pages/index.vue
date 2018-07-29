@@ -2,23 +2,24 @@
     <div class="container my-4">
         <b-row>
             <b-col>
-                <h1 class="my-4">
-                    Welcome to Sample App!!
-                </h1>
 
-                <h3>These are the registered users</h3>
+                <b-row>
+                    <b-col offset-md="3" md="6" offset-lg="4" lg="4">
+                        <img src="../assets/logo.svg" alt="" style="width: 100%">
+                    </b-col>
+                </b-row>
 
-                <ul>
-                    <li :key="user.id" v-for="user in users">
-                        {{user.name}}
-                    </li>
-                </ul>
+                <b-row>
+                    <b-col offset-md="3" md="6" offset-lg="4" lg="4">
+                        <b-btn variant="love" block size="lg" class="mb-4">
+                            Cadastre-se!
+                        </b-btn>
 
-                <div>
-                    <b>CONFIG:</b> {{JSON.stringify(config)}}
-                </div>
-
-                <b-btn variant="primary">HEY</b-btn>
+                        <b-btn variant="primary" block size="lg">
+                            Login
+                        </b-btn>
+                    </b-col>
+                </b-row>
             </b-col>
         </b-row>
     </div>
