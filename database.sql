@@ -15,28 +15,59 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+SET FOREIGN_KEY_CHECKS=0;
+
 --
--- Table structure for table `campus_user`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `campus_user`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `campus_user` (
-  `user_id` int(11) NOT NULL,
-  `campus` int(2) NOT NULL,
-  PRIMARY KEY (`user_id`,`campus`),
-  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  `email` varchar(256) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `major` tinyint(2) unsigned NOT NULL,
+  `semester` char(6) NOT NULL,
+  `birthday` date NOT NULL,
+  `enrolmentStatus` tinyint(2) unsigned NOT NULL,
+  `educationLevel` tinyint(2) unsigned NOT NULL,
+  `sexualOrientation` tinyint(2) unsigned DEFAULT NULL,
+  `genderPreference` tinyint(2) unsigned DEFAULT NULL,
+  `neighborhood` varchar(64) DEFAULT '',
+  `phone` varchar(13) DEFAULT '',
+  `description` text,
+  `matchMessage` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `user_campus`
+--
+
+DROP TABLE IF EXISTS `user_campus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_campus` (
+  `userId` int(11) NOT NULL,
+  `campus` tinyint(2) NOT NULL,
+  PRIMARY KEY (`userId`,`campus`),
+  CONSTRAINT `userId_fk` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `campus_user`
+-- Dumping data for table `user_campus`
 --
 
-LOCK TABLES `campus_user` WRITE;
-/*!40000 ALTER TABLE `campus_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `campus_user` ENABLE KEYS */;
+LOCK TABLES `user_campus` WRITE;
+/*!40000 ALTER TABLE `user_campus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_campus` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -47,14 +78,14 @@ DROP TABLE IF EXISTS `evaluation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `evaluation` (
-  `evaluating_user` int(11) NOT NULL,
-  `evaluated_user` int(11) NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `evaluatingUser` int(11) NOT NULL,
+  `evaluatedUser` int(11) NOT NULL,
+  `datetime` datetime NOT NULL,
   `evaluation` tinyint(1) NOT NULL,
-  KEY `evaluating_user_fk` (`evaluating_user`),
-  KEY `evaluated_user_fk` (`evaluated_user`),
-  CONSTRAINT `evaluated_user_fk` FOREIGN KEY (`evaluated_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `evaluating_user_fk` FOREIGN KEY (`evaluating_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `evaluating_user_fk` (`evaluatingUser`),
+  KEY `evaluated_user_fk` (`evaluatedUser`),
+  CONSTRAINT `evaluating_user_fk` FOREIGN KEY (`evaluatingUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `evaluated_user_fk` FOREIGN KEY (`evaluatedUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='column datetime may be a reserved word';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -75,16 +106,17 @@ DROP TABLE IF EXISTS `match`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `match` (
-  `user_1_id` int(11) NOT NULL,
-  `user_2_id` int(11) NOT NULL,
-  `match_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userId1` int(11) NOT NULL,
+  `userId2` int(11) NOT NULL,
+  `matchDate` datetime NOT NULL,
+
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
-  KEY `user_1_match_fk` (`user_1_id`),
-  KEY `user_2_match_fk` (`user_2_id`),
-  CONSTRAINT `user_1_match_fk` FOREIGN KEY (`user_1_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `user_2_match_fk` FOREIGN KEY (`user_2_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `user_1_match_fk` (`userId1`),
+  KEY `user_2_match_fk` (`userId2`),
+  CONSTRAINT `user_1_match_fk` FOREIGN KEY (`userId1`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_2_match_fk` FOREIGN KEY (`userId2`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='app level validation: user1''s id is greater than user2''s id';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -98,79 +130,28 @@ LOCK TABLES `match` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `report_type`
+-- Table structure for table `user_tag`
 --
 
-DROP TABLE IF EXISTS `report_type`;
+DROP TABLE IF EXISTS `user_tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `report_type` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `report_type_name_uindex` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `report_type`
---
-
-LOCK TABLES `report_type` WRITE;
-/*!40000 ALTER TABLE `report_type` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_type` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tag_user`
---
-
-DROP TABLE IF EXISTS `tag_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tag_user` (
-  `user_id` int(11) NOT NULL,
+CREATE TABLE `user_tag` (
+  `userId` int(11) NOT NULL,
   `tag` varchar(30) NOT NULL,
-  PRIMARY KEY (`user_id`,`tag`),
-  CONSTRAINT `tag_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`userId`,`tag`),
+  CONSTRAINT `user_tag_fk` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tag_user`
+-- Dumping data for table `user_tag`
 --
 
-LOCK TABLES `tag_user` WRITE;
-/*!40000 ALTER TABLE `tag_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tag_user` ENABLE KEYS */;
+LOCK TABLES `user_tag` WRITE;
+/*!40000 ALTER TABLE `user_tag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_tag` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) NOT NULL,
-  `email` varchar(256) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  `curso` int(2) unsigned NOT NULL,
-  `turma` char(6) NOT NULL,
-  `data_nascimento` date NOT NULL,
-  `status_matricula` int(2) unsigned NOT NULL,
-  `nivel_instrucao` int(2) unsigned NOT NULL,
-  `descricao` text,
-  `orientacao_sexual` int(2) unsigned DEFAULT NULL,
-  `bairro` varchar(64) DEFAULT '',
-  `telefone` varchar(13) DEFAULT '',
-  `on_match_message` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 
 --
@@ -181,14 +162,14 @@ DROP TABLE IF EXISTS `user_block`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_block` (
-  `blocking_user_id` int(11) NOT NULL,
-  `blocked_user_id` int(11) NOT NULL,
+  `blockingUserId` int(11) NOT NULL,
+  `blockedUserId` int(11) NOT NULL,
   `last_update_datetime` datetime NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`blocking_user_id`,`blocked_user_id`),
-  KEY `blocked_user_fk` (`blocked_user_id`),
-  CONSTRAINT `blocked_user_fk` FOREIGN KEY (`blocked_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `blocking_user_fk` FOREIGN KEY (`blocked_user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`blockingUserId`,`blockedUserId`),
+
+  CONSTRAINT `blocked_user_fk` FOREIGN KEY (`blockingUserId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `blocking_user_fk` FOREIGN KEY (`blockedUserId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -209,19 +190,19 @@ DROP TABLE IF EXISTS `user_report`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_report` (
-  `reporting_user` int(11) NOT NULL,
-  `reported_user` int(11) NOT NULL,
-  `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `type_id` bigint(20) unsigned NOT NULL,
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `type` tinyint(2) unsigned NOT NULL,
+  `reportingUser` int(11) NOT NULL,
+  `reportedUser` int(11) NOT NULL,
+  `datetime` datetime NOT NULL,
+
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`),
-  KEY `reporting_user_fk` (`reporting_user`),
-  KEY `reported_user_fk` (`reported_user`),
-  KEY `type_id_fk` (`type_id`),
-  CONSTRAINT `reported_user_fk` FOREIGN KEY (`reported_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `reporting_user_fk` FOREIGN KEY (`reporting_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `type_id_fk` FOREIGN KEY (`type_id`) REFERENCES `report_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+
+  KEY `reportingUser_fk` (`reportingUser`),
+  KEY `reportedUser_fk` (`reportedUser`),
+
+  CONSTRAINT `reportedUser_fk` FOREIGN KEY (`reportedUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `reportingUser_fk` FOREIGN KEY (`reportingUser`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -242,11 +223,11 @@ DROP TABLE IF EXISTS `user_social`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_social` (
-  `user_id` int(11) NOT NULL,
-  `network_handle` text,
-  `network_name` varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (`user_id`,`network_name`),
-  CONSTRAINT `user_id_user_social_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `userId` int(11) NOT NULL,
+  `network` tinyint(2) NOT NULL,
+  `networkHandle` varchar(64) DEFAULT '',
+  PRIMARY KEY (`userId`,`network`),
+  CONSTRAINT `userId_user_social_fk` FOREIGN KEY (`userId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -267,5 +248,8 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+SET FOREIGN_KEY_CHECKS=1;
 
 -- Dump completed on 2018-07-28 20:56:41
