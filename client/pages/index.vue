@@ -1,31 +1,48 @@
 <template>
-    <div class="container my-4">
-        <b-row>
-            <b-col>
+    <div>
+        <div class="d-flex align-items-center" style="min-height: 80vh">
 
+            <div class="container my-4">
                 <b-row>
-                    <b-col offset-md="3" md="6" offset-lg="4" lg="4" class="mb-4">
-                        <img src="../assets/logo.svg" alt="" style="width: 100%">
+                    <b-col>
 
-                        <h2 class="text-center">
-                            Unindo <span class="rotating-text" :class="{preShow: preShowText, hide: hideText}">{{rotatingText[currentTextIndex]}}</span>
-                        </h2>
+                        <b-row>
+                            <b-col offset-md="3" md="6" offset-lg="4" lg="4" class="mb-4">
+                                <img src="../assets/logo.svg" alt="" style="width: 100%">
+
+                                <h2 class="text-center">
+                                    Unindo <span class="rotating-text" :class="{preShow: preShowText, hide: hideText}">{{rotatingText[currentTextIndex]}}</span>
+                                </h2>
+                            </b-col>
+                        </b-row>
+
+                        <b-row>
+                            <b-col offset-md="3" md="6" offset-lg="4" lg="4">
+                                <b-btn to="/register" variant="love" block size="lg" class="mb-4">
+                                    Cadastre-se!
+                                </b-btn>
+
+                                <b-btn variant="primary" block size="lg">
+                                    Login
+                                </b-btn>
+                            </b-col>
+                        </b-row>
                     </b-col>
                 </b-row>
+            </div>
 
-                <b-row>
-                    <b-col offset-md="3" md="6" offset-lg="4" lg="4">
-                        <b-btn variant="love" block size="lg" class="mb-4">
-                            Cadastre-se!
-                        </b-btn>
+        </div>
 
-                        <b-btn variant="primary" block size="lg">
-                            Login
-                        </b-btn>
-                    </b-col>
-                </b-row>
-            </b-col>
-        </b-row>
+        <div class="container-fluid footer sticky text-center py-2">
+            <p class="m-0">
+                Desenvolvido pelo curso de Sistemas de Informação da UNIRIO
+            </p>
+            <p class="m-0">
+                <a href="#">Termos de Uso</a>
+                -
+                <a href="#">Política de Privacidade</a>
+            </p>
+        </div>
     </div>
 </template>
 
@@ -39,6 +56,7 @@
 
 
     export default {
+        layout: 'external',
         head: () => ({
             title: "Home"
         }),
@@ -112,6 +130,17 @@
         &.preShow {
             opacity: 0;
             transform: translateY(-$translationDistance);
+        }
+    }
+
+    .footer {
+        background: #434343;
+
+        &.sticky {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
     }
 </style>

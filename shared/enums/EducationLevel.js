@@ -7,7 +7,7 @@ import Enum from '../base/Enum';
  */
 
 export default new Enum({
-	Undergrad: {value: 1, label: 'graduação'},
-	Postgraduate: {value: 2, label: 'pós-graduação'},
-	Doctorate: {value: 3, label: 'doutourado'},
+	Undergrad: {value: 1, label: 'Graduação'},
+	Postgraduate: {value: 2, label: 'Pós-graduação'},
+	Doctorate: {value: 3, label: 'Doutourado'},
 });

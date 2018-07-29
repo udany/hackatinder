@@ -1,4 +1,4 @@
-import Entity from '../base/Entity';
+    import Entity from '../base/Entity';
 
 class Evaluation extends Entity {}
 
