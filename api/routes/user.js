@@ -18,10 +18,6 @@ router.get('/:id', async function (req, res, next) {
 	/** @var {User} **/
     let data = await UserModel.getById(db, req.params.id);
 
-	data.tags = [new UserTag({tag: 'hey'})];
-
-    await UserModel.save(db, data.Serialize());
-
     res.send(data);
 });
 
