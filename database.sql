@@ -32,13 +32,14 @@ CREATE TABLE `user` (
   `password` varchar(64) NOT NULL,
   `major` tinyint(2) unsigned NOT NULL,
   `semester` char(6) NOT NULL,
-  `birthday` date NOT NULL,
+  `gender` tinyint(2) unsigned DEFAULT NULL,
   `enrolmentStatus` tinyint(2) unsigned NOT NULL,
   `educationLevel` tinyint(2) unsigned NOT NULL,
   `sexualOrientation` tinyint(2) unsigned DEFAULT NULL,
   `genderPreference` tinyint(2) unsigned DEFAULT NULL,
-  `neighborhood` varchar(64) DEFAULT '',
+  `neighborhood` varchar(128) DEFAULT '',
   `phone` varchar(13) DEFAULT '',
+  `birthday` date NOT NULL,
   `description` text,
   `matchMessage` text NOT NULL,
   PRIMARY KEY (`id`)
@@ -138,7 +139,7 @@ DROP TABLE IF EXISTS `user_tag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_tag` (
   `userId` int(11) NOT NULL,
-  `tag` varchar(30) NOT NULL,
+  `tag` varchar(128) NOT NULL,
   PRIMARY KEY (`userId`,`tag`),
   CONSTRAINT `user_tag_fk` FOREIGN KEY (`userId`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -164,8 +165,7 @@ DROP TABLE IF EXISTS `user_block`;
 CREATE TABLE `user_block` (
   `blockingUserId` int(11) NOT NULL,
   `blockedUserId` int(11) NOT NULL,
-  `last_update_datetime` datetime NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `datetime` datetime NOT NULL,
   PRIMARY KEY (`blockingUserId`,`blockedUserId`),
 
   CONSTRAINT `blocked_user_fk` FOREIGN KEY (`blockingUserId`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

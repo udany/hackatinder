@@ -575,6 +575,7 @@ Entity.Attributes.Entity = class extends Entity.Attributes.Object {
         return this._setOrReturnKey('_default', val);
     }
 
+    // Mongo only
     referential() {
         if (arguments.length) {
             this._referential = !!arguments[0];
@@ -811,31 +812,96 @@ Entity.Attributes.Custom = class extends Entity.Attributes.Object {
 
 // EntityMap
 Entity.Attributes.EntityMap = function (name, encodeAsJson) {
-    this.name = name;
-    this.encodeAsJson = !!encodeAsJson;
+	this.name = name;
+	this.encodeAsJson = !!encodeAsJson;
 };
 Entity.Attributes.EntityMap.prototype.Get = function (obj) {
-    let a = obj[this.name];
-    let r = [];
-    for (let i in a) {
-        if (a.hasOwnProperty(i)) {
-            let e = a[i];
-            r[i] = e.Serialize();
-        }
-    }
-    return this.encodeAsJson ? JSON.stringify(r) : r;
+	let a = obj[this.name];
+	let r = [];
+	for (let i in a) {
+		if (a.hasOwnProperty(i)) {
+			let e = a[i];
+			r[i] = e.Serialize();
+		}
+	}
+	return this.encodeAsJson ? JSON.stringify(r) : r;
 };
 Entity.Attributes.EntityMap.prototype.Set = function (obj, val) {
-    let a = this.encodeAsJson ? JSON.parse(val) : val;
-    if (!a) a = [];
-    let r = [];
-    for (let i in a) {
-        if (a.hasOwnProperty(i)) {
-            let e = a[i];
-            r[i] = Entity.FromPlainObject(e);
-        }
+	let a = this.encodeAsJson ? JSON.parse(val) : val;
+	if (!a) a = [];
+	let r = [];
+	for (let i in a) {
+		if (a.hasOwnProperty(i)) {
+			let e = a[i];
+			r[i] = Entity.FromPlainObject(e);
+		}
+	}
+	obj[this.name] = r;
+};
+
+// Enum
+
+Entity.Attributes.Enum = class extends Entity.Attributes.Object {
+	/**
+	 * @param name
+	 * @param {Enum} enumObj
+	 * @param key
+	 * @constructor
+	 */
+	constructor(name, enumObj, key = 'value') {
+		super(name);
+		this.name = name;
+		this.enum = enumObj;
+		this.key = key;
+		this.default = null;
+	}
+
+	Get(obj) {
+		let val = obj[this.name];
+
+		if (val && val.hasOwnProperty(this.key)) {
+			return val[this.key];
+		}
+
+		return this.default;
+	}
+
+	Set(obj, val) {
+		obj[this.name] = this.enum.getByProperty(this.key, val);
+	}
+};
+
+
+// Flags
+Entity.Attributes.Flags = class extends Entity.Attributes.Object {
+
+	/**
+	 * @param name
+	 * @param {Enum} enumObj
+	 * @param key
+	 * @constructor
+	 */
+    constructor(name, enumObj, key = 'value') {
+		super(name);
+	    this.name = name;
+	    this.enum = enumObj;
+	    this.key = key;
+	    this.default = null;
     }
-    obj[this.name] = r;
+
+	Get(obj) {
+		let val = obj[this.name];
+
+		if (val instanceof Array) {
+			return val.map(x => x[this.key]);
+		}
+
+		return [];
+	}
+
+	Set(obj, val) {
+		obj[this.name] = this.enum.listByProperty((x) => x[this.key] & val);
+	}
 };
 
 export default Entity;
