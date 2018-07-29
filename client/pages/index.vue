@@ -9,7 +9,7 @@
                 <h3>These are the registered users</h3>
 
                 <ul>
-                    <li v-for="user in users">
+                    <li :key="user.id" v-for="user in users">
                         {{user.name}}
                     </li>
                 </ul>
@@ -34,10 +34,10 @@
             users: [],
             config
         }),
-        async asyncData ({ app }) {
-            let { data: users } = await app.$api.get(`/user/`);
+        async asyncData({app}) {
+            let {data: users} = await app.$api.get(`/user/`);
 
-            return { users };
+            return {users};
         },
         components: {},
         created() {
