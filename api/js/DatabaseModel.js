@@ -1,5 +1,6 @@
 import {setOrReturnKey} from '../../shared/base/General';
 import {DatabaseQueryClause, DatabaseQueryComponent, DatabaseQueryCondition} from "./DatabaseQueryComponent";
+import Entity from '../../shared/base/Entity';
 
 export function dbBacktick(val) {
     return `\`${val}\``;
@@ -14,7 +15,8 @@ export class DatabaseModel {
         entity = null,
         fields = [],
         relationships = [],
-        insertWithId = false
+        insertWithId = false,
+	    updateOnDuplicate = false
     }) {
         this.table = table;
         this.entity = entity;
@@ -24,7 +26,8 @@ export class DatabaseModel {
 
         this.relationships = relationships;
 
-        this._insertWithId = insertWithId;
+	    this._insertWithId = insertWithId;
+	    this._updateOnDuplicate = updateOnDuplicate;
 
         return this;
     }
@@ -32,6 +35,10 @@ export class DatabaseModel {
     static insertWithId(v) {
         return this._setOrReturnKey('_insertWithId', v);
     }
+
+	static updateOnDuplicate(v) {
+		return this._setOrReturnKey('_updateOnDuplicate', v);
+	}
 
     // Main Operations
     static async save(db, obj, allowedFields = [], insert = false) {
@@ -45,7 +52,7 @@ export class DatabaseModel {
             return d;
         }, {});
 
-        if (insert || !exists) {
+        if (insert || !exists || this.updateOnDuplicate()) {
             const query = this.getInsertQuery(data);
 
             const result = await db.query(query, data);
@@ -66,7 +73,7 @@ export class DatabaseModel {
         } else {
             const query = this.getUpdateQuery(data);
 
-            let result = db.query(query, data);
+            let result = await db.query(query, data);
 
             await this.saveRelationships(db, obj);
 
@@ -130,10 +137,22 @@ export class DatabaseModel {
         return null;
     }
 
-    static async deleteById(db, id) {
-        if (!Array.isArray(id)) id = [id];
+    static async deleteByModel(db, obj) {
+	    const pks = this.primaryKeys();
 
-        const pks = this.primaryKeys();
+	    const id = [];
+
+	    for (const pk of pks) {
+		    id.push(obj[pk.name]);
+	    }
+
+	    return this.deleteById(db, id);
+    }
+
+    static async deleteById(db, id) {
+	    const pks = this.primaryKeys();
+
+        if (!Array.isArray(id)) id = [id];
 
         let filters = [];
 
@@ -211,7 +230,21 @@ export class DatabaseModel {
             }
         }
 
-        return `INSERT INTO ${_e(this.table)} (${keys.join(', ')}) VALUES (${values.join(', ')})`;
+        let query = `INSERT INTO ${_e(this.table)} (${keys.join(', ')}) VALUES (${values.join(', ')})`;
+
+        if (this.updateOnDuplicate()) {
+	        let sets = [];
+
+	        for (let key in data) {
+		        if (data.hasOwnProperty(key)) {
+			        sets.push(`${_e(key)} = :${key}`);
+		        }
+	        }
+
+        	query += `\n  ON DUPLICATE KEY UPDATE  ${sets.join(', ')}`;
+        }
+
+        return query;
     }
 
     static getUpdateQuery(data) {
@@ -273,6 +306,18 @@ export class DatabaseModel {
 
     static primaryKeys() {
         return this.fields.filter(f => f.primaryKey);
+    }
+
+    static comparePrimaryKeys(obj1, obj2) {
+	    const pks = this.primaryKeys();
+
+	    for (let pk of pks) {
+	        if (obj1[pk.name] !== obj2[pk.name]) {
+	            return false;
+            }
+        }
+
+        return true;
     }
 
 

@@ -4,6 +4,7 @@ import UserModel from "../models/UserModel";
 import db from '../Database';
 import {Reply} from "../base/Reply";
 import User from '../../shared/entities/User';
+import UserTag from '../../shared/entities/UserTag';
 
 let router = express.Router();
 
@@ -14,7 +15,12 @@ router.get('/', async function (req, res, next) {
 });
 
 router.get('/:id', async function (req, res, next) {
+	/** @var {User} **/
     let data = await UserModel.getById(db, req.params.id);
+
+	data.tags = [new UserTag({tag: 'hey'})];
+
+    await UserModel.save(db, data.Serialize());
 
     res.send(data);
 });
