@@ -20,7 +20,15 @@
                                 <b-input class="mb-4" v-model="user.name" :class="{success: user.name}"></b-input>
 
                                 <label>Gênero</label>
-                                <b-select class="mb-4" :options="genders" text-field="label"></b-select>
+                                <b-select class="mb-4" :options="genders" v-model="gender" :class="{success: user.gender}" text-field="label"></b-select>
+
+                                <label>Curso</label>
+                                <b-select class="mb-4" :options="majors" v-model="major" :class="{success: user.major}" text-field="label"></b-select>
+
+                                <label>Campi principais</label><br>
+
+                                <b-button variant="dark" v-for="campus in campi" :key="campus.value">{{campus.label}}</b-button>
+
                             </b-col>
                         </b-row>
                     </b-col>
@@ -34,6 +42,11 @@
 <script>
     import User from 'shared/entities/User';
     import Gender from '../../shared/enums/Gender';
+    import Major from '../../shared/enums/Major';
+    import Sorter from '../../shared/base/Sorter';
+    import Campus from '../../shared/enums/Campus';
+
+    const enumSorter = Sorter.fromAttribute({Get(x){ return x.label }}, 1);
 
     export default {
         layout: 'external',
@@ -43,16 +56,31 @@
         data: () => ({
             user: new User(),
 
-            genders: Gender.toList()
+            genders: Gender.toList(),
+
+            majors: Sorter.sort(Major.toList(), enumSorter),
+
+            campi: Campus.toList(),
+
         }),
-        async asyncData({app}) {
+        computed: {
+            gender: {
+                get() { return this.user.gender ? this.user.gender.value : 0; },
+                set(v) { this.user.gender = Gender.getByProperty('value', v); }
+            },
+            major: {
+                get() { return this.user.major ? this.user.major.value : 0; },
+                set(v) { this.user.major = Major.getByProperty('value', v); }
+            }
         },
         components: {},
-        created() {
-        },
         mounted() {
         },
-        methods: {}
+        methods: {
+            toggleCampus(campus) {
+                if (this.user.)
+            }
+        }
     }
 </script>
 

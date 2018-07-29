@@ -63,7 +63,7 @@ class Sorter extends Emitter {
     /**
      * Sorts an array
      * @param {Array} data
-     * @param {Sorter[]} sorters
+     * @param {Sorter|Sorter[]} sorters
      */
     static sort(data, sorters) {
         if ((sorters instanceof Sorter)) sorters = [sorters];

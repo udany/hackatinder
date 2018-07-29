@@ -39,11 +39,15 @@ module.exports = {
 
         extractCSS: true,
 
-        extend(config) {
+        extend(config, { isClient }) {
             if (!config.resolve.alias) config.resolve.alias = {};
 
             // Adds an alias to access shared resources
             config.resolve.alias.shared = path.resolve('../shared/');
+
+            if (isClient) {
+                config.devtool = 'eval-source-map'
+            }
         }
     },
 
