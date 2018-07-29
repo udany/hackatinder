@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="d-flex align-items-center" style="height: 80vh">
+        <div class="d-flex align-items-center" style="min-height: 80vh">
 
             <div class="container my-4">
                 <b-row>
@@ -18,7 +18,7 @@
 
                         <b-row>
                             <b-col offset-md="3" md="6" offset-lg="4" lg="4">
-                                <b-btn variant="love" block size="lg" class="mb-4">
+                                <b-btn to="/register" variant="love" block size="lg" class="mb-4">
                                     Cadastre-se!
                                 </b-btn>
 
