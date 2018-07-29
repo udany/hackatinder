@@ -7,7 +7,7 @@ import Enum from '../base/Enum';
  */
 
 export default new Enum({
-	Heterosexual: {value: 1, label: 'héterosexual'},
+	Heterosexual: {value: 1, label: 'heterossexual'},
 	Homosexual: {value: 2, label: 'homossexual'},
 	Bisexual: {value: 3, label: 'bissexual'},
 	Demisexual: {value: 4, label: 'demissexual'},
