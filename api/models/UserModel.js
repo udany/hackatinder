@@ -1,8 +1,7 @@
 import {DatabaseField, DatabaseModel} from '../js/DatabaseModel';
 import User from '../../shared/entities/User';
-import {DatabaseRelationshipManyToMany, DatabaseRelationshipOneToMany} from '../js/DatabaseRelationship';
+import { DatabaseRelationshipOneToMany } from '../js/DatabaseRelationship';
 import UserTagModel from './UserTagModel';
-import EvaluationModel from './EvaluationModel';
 
 class UserModel extends DatabaseModel {}
 

@@ -42,11 +42,11 @@ router.put('/:id/inactivate', async function (req, res, next) {
     // deactivate user
 });
 
-/*router.delete('/:id', async function (req, res, next) {
+router.delete('/:id', async function (req, res, next) {
     let data = await UserModel.deleteById(db, req.params.id);
 
     res.send(new Reply(data));
-});*/
+});
 
 module.exports.path = '/user';
 module.exports.router = router;
