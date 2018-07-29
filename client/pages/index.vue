@@ -17,6 +17,8 @@
                 <div>
                     <b>CONFIG:</b> {{JSON.stringify(config)}}
                 </div>
+
+                <b-btn variant="primary">HEY</b-btn>
             </b-col>
         </b-row>
     </div>
