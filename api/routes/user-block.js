@@ -27,4 +27,5 @@ router.delete('/:id', async function (req, res, next) {
     res.send(new Reply(data));
 });
 
-
+module.exports.path = '/user-block';
+module.exports.router = router;
