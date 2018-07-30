@@ -3,6 +3,8 @@ import db from '../Database';
 import EvaluationModel from "../models/EvaluationModel";
 import Evaluation from "../../shared/entities/Evaluation";
 import {DatabaseQueryCondition} from "../js/DatabaseQueryComponent";
+import Match from "../../shared/entities/Match";
+import MatchModel from "../models/MatchModel";
 
 let router = express.Router();
 
@@ -22,10 +24,19 @@ router.post('/', async function (req, res, next) {
         new DatabaseQueryCondition({ column: 'evaluatedUser', values: obj.evaluatingUser}),
         new DatabaseQueryCondition({ column: 'evaluation', values: 1})
     ]);
+
+    // TODO: Check if there isn't a match already
+
     if (queryResult.size() > 0) {
-        const matchObj = new MatchModel()
-        await MatchModel.save(db, )
+        const matchObj = new Match({
+            user1: obj.evaluatedUser,
+            user2: obj.evaluatingUser,
+            datetime: new Date()
+        });
+        await MatchModel.save(db, matchObj)
     }
+
+    // TODO: Change res.send to send in the Reply() format and inform whether a match has occurred.
 
     res.send(obj);
 });
