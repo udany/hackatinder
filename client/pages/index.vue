@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="d-flex align-items-center" style="min-height: 80vh">
+    <div style="position: relative">
+        <div class="d-flex align-items-center" style="min-height: 80vh; padding-bottom: 65px;">
 
             <div class="container my-4">
                 <b-row>
@@ -35,7 +35,7 @@
 
         <div class="container-fluid footer sticky text-center py-2">
             <p class="m-0">
-                Desenvolvido pelo curso de Sistemas de Informação da UNIRIO
+                Desenvolvido pelo BSI - UNIRIO
             </p>
             <p class="m-0">
                 <a href="#">Termos de Uso</a>
@@ -135,6 +135,7 @@
 
     .footer {
         background: #434343;
+        font-size: .9rem;
 
         &.sticky {
             position: absolute;
