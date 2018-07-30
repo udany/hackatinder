@@ -1,6 +1,6 @@
 <template>
     <div style="position: relative">
-        <div class="d-flex align-items-center" style="min-height: 80vh; padding-bottom: 65px;">
+        <div class="d-flex align-items-center" style="min-height: 100vh; padding-bottom: 65px;">
 
             <div class="container my-4">
                 <b-row>
