@@ -35,7 +35,7 @@ import UserCampus from './UserCampus';
  * @property {UserTag[]} tags
  * @property {UserCampus[]} campi
  */
-export class User extends Entity {};
+export class User extends Entity {}
 
 User.Register();
 User.Attributes = [

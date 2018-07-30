@@ -1,6 +1,6 @@
 import Entity from "../base/Entity";
 
-class UserReport extends Entity{};
+class UserReport extends Entity{}
 
 UserReport.Register();
 UserReport.Attributes = [
