@@ -31,7 +31,7 @@ import UserTag from './UserTag';
  *
  * @property {UserTag[]} tags
  */
-export class User extends Entity {}
+export class User extends Entity {};
 
 User.Register();
 User.Attributes = [

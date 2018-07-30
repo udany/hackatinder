@@ -4,7 +4,7 @@ import {DatabaseRelationshipManyToMany, DatabaseRelationshipOneToMany} from '../
 import UserTagModel from './UserTagModel';
 import EvaluationModel from './EvaluationModel';
 
-class UserModel extends DatabaseModel {}
+class UserModel extends DatabaseModel {};
 
 UserModel.config({
 	table: 'user',
@@ -42,6 +42,8 @@ UserModel.config({
 			property: 'tags',
 			localForeignKey: 'userId'
 		})).autoload(true).readonly(false),
+
+
 	]
 });
 
