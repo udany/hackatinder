@@ -5,8 +5,8 @@ import EducationLevel from '../enums/EducationLevel';
 import SexualOrientation from '../enums/SexualOrientation';
 import UserTag from './UserTag';
 import Major from '../enums/Major';
-import Campus from '../enums/Campus';
 import UserCampus from './UserCampus';
+import UserSocial from './UserSocial';
 
 /**
  * @name User
@@ -63,7 +63,7 @@ User.Attributes = [
 
 	new Entity.Attributes.EntityList('tags', UserTag),
 	new Entity.Attributes.EntityList('campi', UserCampus),
-	new Entity.Attributes.EntityList('social', UserSocial )
+	new Entity.Attributes.EntityList('social', UserSocial)
 ];
 
 export default User;
