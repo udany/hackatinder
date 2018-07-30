@@ -15,5 +15,9 @@ $input-color: $text;
 $input-placeholder-color: $text-darker;
 $input-border-color: $text-darker;
 
+$custom-select-color: $text;
+$custom-select-bg: $background-lighter;
+
+
 // Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap";
