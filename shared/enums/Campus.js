@@ -9,7 +9,7 @@ import Enum from '../base/Enum';
 export default new Enum({
 	CCET: {value: 1, label: 'CCET'},
 	CCHS: {value: 2, label: 'CCHS'},
-	CCJP: {value: 3, label: 'CCJP'},
-	CCBS: {value: 4, label: 'CCBS'},
-	CLA:  {value: 5, label: 'CLA'},
+	CLA:  {value: 3, label: 'CLA'},
+	CCJP: {value: 4, label: 'CCJP'},
+	CCBS: {value: 5, label: 'CCBS'},
 });
