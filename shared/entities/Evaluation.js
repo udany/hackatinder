@@ -2,7 +2,7 @@
 
 class Evaluation extends Entity {}
 
-Evaluation.Register();
+Evaluation.Register()
 Evaluation.Attributes = [
     new Entity.Attributes.Integer('id'),
     new Entity.Attributes.Integer('evaluatingUser'),

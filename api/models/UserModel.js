@@ -2,8 +2,10 @@ import {DatabaseField, DatabaseModel} from '../js/DatabaseModel';
 import User from '../../shared/entities/User';
 import { DatabaseRelationshipOneToMany } from '../js/DatabaseRelationship';
 import UserTagModel from './UserTagModel';
+import UserCampusModel from './UserCampusModel';
+import UserSocial from '../../shared/entities/UserSocial';
 
-class UserModel extends DatabaseModel {}
+class UserModel extends DatabaseModel {};
 
 UserModel.config({
 	table: 'user',
@@ -41,6 +43,20 @@ UserModel.config({
 			property: 'tags',
 			localForeignKey: 'userId'
 		})).autoload(true).readonly(false),
+
+		(new DatabaseRelationshipOneToMany({
+			model: UserModel,
+			externalModel: UserCampusModel,
+			property: 'campi',
+			localForeignKey: 'userId'
+		})).autoload(true).readonly(false),
+
+        (new DatabaseRelationshipOneToMany({
+            model: User,
+            externalModel: UserSocial,
+	        property: 'social',
+	        localForeignKey: 'userId'
+        }).autoload(true).readonly(false),
 	]
 });
 

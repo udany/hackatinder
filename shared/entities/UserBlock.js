@@ -1,6 +1,6 @@
 import Entity from "../base/Entity";
 
-class UserBlock extends Entity {};
+class UserBlock extends Entity {}
 
 UserBlock.Register();
 UserBlock.Attributes = [

@@ -4,6 +4,9 @@ import EnrollmentStatus from '../enums/EnrollmentStatus';
 import EducationLevel from '../enums/EducationLevel';
 import SexualOrientation from '../enums/SexualOrientation';
 import UserTag from './UserTag';
+import Major from '../enums/Major';
+import Campus from '../enums/Campus';
+import UserCampus from './UserCampus';
 
 /**
  * @name User
@@ -30,6 +33,7 @@ import UserTag from './UserTag';
  * @property {string} matchMessage
  *
  * @property {UserTag[]} tags
+ * @property {UserCampus[]} campi
  */
 export class User extends Entity {}
 
@@ -41,7 +45,7 @@ User.Attributes = [
 	new Entity.Attributes.String('email'),
 	new Entity.Attributes.String('password'),
 
-	new Entity.Attributes.Integer('major'),
+	new Entity.Attributes.Enum('major', Major),
 	new Entity.Attributes.String('semester'),
 
 	new Entity.Attributes.Enum('gender', Gender),
@@ -58,6 +62,8 @@ User.Attributes = [
 	new Entity.Attributes.String('matchMessage'),
 
 	new Entity.Attributes.EntityList('tags', UserTag),
+	new Entity.Attributes.EntityList('campi', UserCampus),
+	new Entity.Attributes.EntityList('social', UserSocial )
 ];
 
 export default User;

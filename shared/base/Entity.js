@@ -893,10 +893,10 @@ Entity.Attributes.Flags = class extends Entity.Attributes.Object {
 		let val = obj[this.name];
 
 		if (val instanceof Array) {
-			return val.map(x => x[this.key]);
+			return val.reduce((v, item) => v | item[this.key], 0);
 		}
 
-		return [];
+		return 0;
 	}
 
 	Set(obj, val) {

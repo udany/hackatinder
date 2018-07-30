@@ -11,5 +11,5 @@ export default new Enum({
 	CCHS: {value: 2, label: 'CCHS'},
 	CCJP: {value: 3, label: 'CCJP'},
 	CCBS: {value: 4, label: 'CCBS'},
-	CLA: {value: 5, label: 'CLA'},
+	CLA:  {value: 5, label: 'CLA'},
 });

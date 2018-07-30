@@ -1,6 +1,6 @@
 import Entity from '../base/Entity';
 
-class Match extends Entity {};
+class Match extends Entity {}
 
 Match.Register();
 
