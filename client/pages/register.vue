@@ -27,7 +27,7 @@
 
                                 <label>Campi principais</label><br>
 
-                                <b-button variant="dark" v-for="campus in campi" :key="campus.value">{{campus.label}}</b-button>
+                                <b-button :variant="hasCampus(campus) ? 'success' : 'dark'" v-for="campus in campi" :key="campus.value" @click="toggleCampus(campus)">{{campus.label}}</b-button>
 
                             </b-col>
                         </b-row>
@@ -45,6 +45,7 @@
     import Major from '../../shared/enums/Major';
     import Sorter from '../../shared/base/Sorter';
     import Campus from '../../shared/enums/Campus';
+    import UserCampus from '../../shared/entities/UserCampus';
 
     const enumSorter = Sorter.fromAttribute({Get(x){ return x.label }}, 1);
 
@@ -78,7 +79,18 @@
         },
         methods: {
             toggleCampus(campus) {
-                if (this.user.)
+                let current = this.hasCampus(campus);
+
+                if (current) {
+                    this.user.campi.remove(current);
+                } else {
+                    this.user.campi.push(new UserCampus({
+                        campus: campus.value
+                    }));
+                }
+            },
+            hasCampus(campus) {
+                return this.user.campi.find(x => x.campus === campus);
             }
         }
     }
