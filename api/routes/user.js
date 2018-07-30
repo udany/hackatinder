@@ -18,10 +18,6 @@ router.get('/:id', async function (req, res, next) {
 	/** @var {User} **/
     let data = await UserModel.getById(db, req.params.id);
 
-	data.tags = [new UserTag({tag: 'hey'})];
-
-    await UserModel.save(db, data.Serialize());
-
     res.send(data);
 });
 
@@ -42,11 +38,11 @@ router.put('/:id/inactivate', async function (req, res, next) {
     // deactivate user
 });
 
-/*router.delete('/:id', async function (req, res, next) {
+router.delete('/:id', async function (req, res, next) {
     let data = await UserModel.deleteById(db, req.params.id);
 
     res.send(new Reply(data));
-});*/
+});
 
 module.exports.path = '/user';
 module.exports.router = router;

@@ -7,7 +7,7 @@ import Enum from '../base/Enum';
  */
 
 export default new Enum({
-	Male: {value: 1, label: 'masculino'},
-	Female: {value: 2, label: 'feminino'},
-	Other: {value: 4, label: 'outro'},
+	Male: {value: 1, label: 'Masculino'},
+	Female: {value: 2, label: 'Feminino'},
+	Other: {value: 4, label: 'Outro'},
 });

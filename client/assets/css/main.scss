@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700|Raleway:400,600');
 
+@import "./variables";
 @import "./bootstrap";
 
 html, body {
     //height: 100%;
-    background: #222;
-    color: #C2C7CD;
-    font-family: 'Lato', sans-serif;
+    background: $background;
+    color: $text;
+    font-family: 'PT Sans', sans-serif;
 }
 
 .no-scroll {
@@ -27,15 +28,13 @@ h1, h2, h3, h4, h5, .fancy-text, .btn {
 }
 
 .page-enter-active, .page-leave-active {
-    transition: opacity .2s, transform .2s;
+    transition: opacity .2s;
 }
 .page-enter {
     opacity: 0;
-    transform: translateY(-20px);
 }
 .page-leave-to {
     opacity: 0;
-    transform: translateY(-20px);
 }
 
 label, legend {
@@ -51,15 +50,27 @@ label, legend {
 }
 
 
+label {
+    margin-bottom: 0;
+}
+
+
 .form-control {
     border-radius: 0;
+
+    border-top: none;
+    border-left: none;
+    border-right: none;
 }
 .form-control:focus {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-    border-color: #183e98;
+    border-color: $love;
+
     transition: all .2s;
 }
-
+.form-control.success {
+    border-color: $success;
+}
 
 input[disabled] {
     background: #fbfbfd !important;

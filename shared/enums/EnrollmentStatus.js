@@ -7,7 +7,7 @@ import Enum from '../base/Enum';
  */
 
 export default new Enum({
-	Enrolled: {value: 1, label: 'cursando'},
-	Locked: {value: 2, label: 'trancado'},
-	Graduated: {value: 3, label: 'formado'},
+	Enrolled: {value: 1, label: 'Cursando'},
+	Locked: {value: 2, label: 'Trancado'},
+	Graduated: {value: 3, label: 'Formado'},
 });

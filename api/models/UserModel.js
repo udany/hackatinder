@@ -1,8 +1,8 @@
 import {DatabaseField, DatabaseModel} from '../js/DatabaseModel';
 import User from '../../shared/entities/User';
-import {DatabaseRelationshipManyToMany, DatabaseRelationshipOneToMany} from '../js/DatabaseRelationship';
+import { DatabaseRelationshipOneToMany } from '../js/DatabaseRelationship';
 import UserTagModel from './UserTagModel';
-import EvaluationModel from './EvaluationModel';
+import UserCampusModel from './UserCampusModel';
 
 class UserModel extends DatabaseModel {};
 
@@ -43,7 +43,18 @@ UserModel.config({
 			localForeignKey: 'userId'
 		})).autoload(true).readonly(false),
 
+		(new DatabaseRelationshipOneToMany({
+			model: UserModel,
+			externalModel: UserCampusModel,
+			property: 'campi',
+			localForeignKey: 'userId'
+		})).autoload(true).readonly(false),
 
+        (new DatabaseRelationshipOneToMany({
+            model: User,
+            externalModel: UserSocial,
+            property: ''
+        }))
 	]
 });
 
