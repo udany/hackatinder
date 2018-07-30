@@ -56,7 +56,7 @@ UserModel.config({
             externalModel: UserSocial,
 	        property: 'social',
 	        localForeignKey: 'userId'
-        }))
+        }).autoload(true).readonly(false),
 	]
 });
 

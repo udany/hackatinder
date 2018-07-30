@@ -63,6 +63,7 @@ User.Attributes = [
 
 	new Entity.Attributes.EntityList('tags', UserTag),
 	new Entity.Attributes.EntityList('campi', UserCampus),
+	new Entity.Attributes.EntityList('social', UserSocial )
 ];
 
 export default User;
