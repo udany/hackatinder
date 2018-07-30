@@ -4,7 +4,7 @@ import Campus from '../enums/Campus';
 /**
  * @name UserCampus
  * @property {number} userId
- * @property {string} tag
+ * @property {Campus} campus
  */
 export class UserCampus extends Entity {}
 
