@@ -1,6 +1,16 @@
 import cfg from './config';
 import mysql from 'mysql2/promise';
 
+const queryFormat = function (query, values) {
+	if (!values) return query;
+	return query.replace(/\:(\w+)/g, function (txt, key) {
+		if (values.hasOwnProperty(key)) {
+			return this.escape(values[key]);
+		}
+		return txt;
+	}.bind(this));
+};
+
 let db = {
     _connPromise: null,
     conn: null,
@@ -10,17 +20,10 @@ let db = {
             resolve = resolveF;
         });
 
-        this.conn = await mysql.createConnection(cfg.mysql);
-
-        this.conn.connection.config.queryFormat = function (query, values) {
-            if (!values) return query;
-            return query.replace(/\:(\w+)/g, function (txt, key) {
-                if (values.hasOwnProperty(key)) {
-                    return this.escape(values[key]);
-                }
-                return txt;
-            }.bind(this));
-        };
+        this.conn = await mysql.createPool({
+	        ...cfg.mysql,
+	        queryFormat
+        });
 
         resolve();
     }

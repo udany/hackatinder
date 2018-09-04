@@ -3,7 +3,7 @@ import User from '../../shared/entities/User';
 import { DatabaseRelationshipOneToMany } from '../js/DatabaseRelationship';
 import UserTagModel from './UserTagModel';
 import UserCampusModel from './UserCampusModel';
-import UserSocial from '../../shared/entities/UserSocial';
+import UserSocialModel from './UserSocialModel';
 
 class UserModel extends DatabaseModel {};
 
@@ -53,7 +53,7 @@ UserModel.config({
 
         (new DatabaseRelationshipOneToMany({
             model: User,
-            externalModel: UserSocial,
+            externalModel: UserSocialModel,
 	        property: 'social',
 	        localForeignKey: 'userId'
         })).autoload(true).readonly(false),

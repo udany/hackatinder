@@ -7,11 +7,11 @@ UserSocialModel.config({
     entity: UserSocial,
 
     fields: [
-      new DatabaseField({name: 'user', type: 'int', length: '11'})
+      new DatabaseField({name: 'userId', type: 'int', length: '11'})
           .setPrimaryKey(true),
-      new DatabaseField({name: 'network', type: 'int', length: '2'})
+      new DatabaseField({name: 'network', type: 'tinyint', length: '2'})
           .setPrimaryKey(true),
-      new DatabaseField({name: 'newtworkHandle', type: 'varchar', length: '64'})
+      new DatabaseField({name: 'networkHandle', type: 'varchar', length: '64'})
     ],
 });
 
