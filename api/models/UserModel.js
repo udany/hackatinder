@@ -5,7 +5,7 @@ import UserTagModel from './UserTagModel';
 import UserCampusModel from './UserCampusModel';
 import UserSocialModel from './UserSocialModel';
 
-class UserModel extends DatabaseModel {};
+class UserModel extends DatabaseModel {}
 
 UserModel.config({
 	table: 'user',
@@ -59,6 +59,5 @@ UserModel.config({
         })).autoload(true).readonly(false),
 	]
 });
-
 
 export default UserModel;

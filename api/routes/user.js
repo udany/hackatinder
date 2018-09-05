@@ -4,9 +4,9 @@ import UserModel from "../models/UserModel";
 import db from '../Database';
 import {Reply} from "../base/Reply";
 import User from '../../shared/entities/User';
-import UserTag from '../../shared/entities/UserTag';
+import UserController from '../controllers/UserController';
 
-let router = express.Router();
+let router = express.Router({});
 
 router.get('/', async function (req, res, next) {
     let data = await UserModel.select(db);
@@ -22,14 +22,10 @@ router.get('/:id', async function (req, res, next) {
 });
 
 // Save
-router.post('/', async function (req, res, next) {
+router.post('/register', async function (req, res, next) {
     const obj = new User(req.body);
-    await UserModel.save(db, obj, ['name','email','password','major',
-                                  'semester','gender','enrollmentStatus',
-                                  'educationLevel','sexualOrientation',
-                                  'genderPreference','neighborhood','phone',
-                                  'birthday', 'description', 'matchMessage',
-                                  'tags']);
+
+    await UserController.register(obj);
 
     res.send(obj);
 });
