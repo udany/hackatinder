@@ -65,8 +65,14 @@
                 "pessoas",
                 "caminhos",
                 "paixões",
-                "destinos"
-            ],
+                "destinos",
+                "amores",
+                "corações",
+                "sorrisos",
+                "casais",
+                "amigos",
+                "ficantes"
+            ].shuffle(),
             currentTextIndex: 0,
             preShowText: false,
             hideText: false,
@@ -90,8 +96,6 @@
         },
         methods: {
             async changeText() {
-                await sleep(1000);
-
                 const nextIndex = this.currentTextIndex === this.rotatingText.length - 1 ? 0 : this.currentTextIndex + 1;
                 this.hideText = true;
 
