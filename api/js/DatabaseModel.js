@@ -41,6 +41,15 @@ export class DatabaseModel {
 	}
 
     // Main Operations
+
+	/**
+     *
+	 * @param db DatabaseInstance
+	 * @param obj Entity instance
+	 * @param {String[]} allowedFields List of allowed fields
+	 * @param {Boolean} insert Weather insert is to be forced
+	 * @returns {Promise<*>}
+	 */
     static async save(db, obj, allowedFields = [], insert = false) {
         const pks = this.primaryKeys();
         const exists = pks.reduce((v, pk) => v && obj[pk.name], true);
