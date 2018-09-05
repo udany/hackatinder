@@ -8,4 +8,4 @@ Simple Nuxt.js / Express app for demonstration purposes.
 2. Configure the connection details on `api/config/config.global.js`.
 3. Run both projects, `client` and `api`.
     1. Alternatively, run `setup/start.bat`.
-4. Fire it up on [http://localhost:3000]()
+4. Fire it up on [localhost:3000](http://localhost:3000)
