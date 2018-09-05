@@ -32,7 +32,6 @@
                                 <b-form-select class="mb-4" :options="majors" v-model="major" :class="{success: user.major}" text-field="label"></b-form-select>
 
                                 <label>Campi principais</label><br>
-
                                 <b-button :variant="hasCampus(campus) ? 'success' : 'dark'" v-for="campus in campi" :key="campus.value" @click="toggleCampus(campus)">{{campus.label}}</b-button>
 
                             </b-col>
