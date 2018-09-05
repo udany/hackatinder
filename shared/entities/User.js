@@ -15,6 +15,7 @@ import UserSocial from './UserSocial';
  * @property {string} name
  * @property {string} email
  * @property {string} password
+ * @property {string} passwordRaw
  *
  * @property {number} major
  * @property {string} semester
@@ -44,6 +45,7 @@ User.Attributes = [
     new Entity.Attributes.String('name'),
 	new Entity.Attributes.String('email'),
 	new Entity.Attributes.String('password'),
+	new Entity.Attributes.String('passwordRaw'),
 
 	new Entity.Attributes.Enum('major', Major),
 	new Entity.Attributes.String('semester'),

@@ -17,13 +17,19 @@
                         <b-row>
                             <b-col offset-md="3" md="6" offset-lg="4" lg="4">
                                 <label>Nome</label>
-                                <b-input class="mb-4" v-model="user.name" :class="{success: user.name}"></b-input>
+                                <b-form-input class="mb-4" v-model="user.name" :class="{success: user.name}"></b-form-input>
+
+                                <label>Email</label>
+                                <b-form-input class="mb-4" v-model="user.email" :class="{success: user.email}"></b-form-input>
+
+                                <label>Senha</label>
+                                <b-form-input class="mb-4" v-model="user.passwordRaw" :class="{success: user.passwordRaw.length > 10}"></b-form-input>
 
                                 <label>Gênero</label>
-                                <b-select class="mb-4" :options="genders" v-model="gender" :class="{success: user.gender}" text-field="label"></b-select>
+                                <b-form-select class="mb-4" :options="genders" v-model="gender" :class="{success: user.gender}" text-field="label"></b-form-select>
 
                                 <label>Curso</label>
-                                <b-select class="mb-4" :options="majors" v-model="major" :class="{success: user.major}" text-field="label"></b-select>
+                                <b-form-select class="mb-4" :options="majors" v-model="major" :class="{success: user.major}" text-field="label"></b-form-select>
 
                                 <label>Campi principais</label><br>
 
