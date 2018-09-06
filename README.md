@@ -9,3 +9,5 @@ Simple Nuxt.js / Express app for demonstration purposes.
 3. Run both projects, `client` and `api`.
     1. Alternatively, run `setup/start.bat`.
 4. Fire it up on [localhost:3000](http://localhost:3000)
+
+FUCK THIS SHIT!
