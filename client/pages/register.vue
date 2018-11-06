@@ -38,6 +38,14 @@
                         </b-row>
                     </b-col>
                 </b-row>
+                <b-row>
+                    <br>
+                    <b-col offset-md="3" md="6" offset-lg="4" lg="4">
+                        <b-btn to="/" variant="primary" block size="lg" class="mb-4">
+                            Registrar!
+                        </b-btn>
+                    </b-col>
+                </b-row>
             </div>
 
         </div>
